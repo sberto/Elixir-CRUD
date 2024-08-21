@@ -1,32 +1,52 @@
 defmodule Crud do
   alias Crud.{Repo, User, Post}
 
-  def all do
+  ## CRUD API
+  # Create
+  def create_user(attrs) do
+    %User{}
+    |> User.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_post(user_id, attrs) do
+    %Post{}
+    |> Post.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  # Read
+  def read_all do
     Repo.all(Crud.User)
     |> Repo.preload(:posts)
-    |> format
   end
 
-  def format(users) do
-    Enum.map(users, &format_user/1)
+  def read_user_and_posts!(id) do
+    Repo.get!(User, id)
+    |> Repo.preload(:posts)
   end
 
-  defp format_user(%User{} = user) do
-    %{
-      id: user.id,
-      name: user.name,
-      posts: format_posts(user.posts)
-    }
+  # Update
+  def update_post(id, attrs) do
+    %Post{id: id}
+    |> Post.update_changeset(attrs)
+    |> IO.inspect()
+    |> Repo.update()
+    |> IO.inspect()
   end
 
-  defp format_posts(posts) do
-    Enum.map(posts, &format_post/1)
+  def update_user_data(id, attrs) do
+    %User{id: id}
+    |> User.update_changeset(attrs)
+    |> Repo.update()
   end
 
-  defp format_post(%Post{} = post) do
-    %{
-      id: post.id,
-      text: post.text
-    }
+  # Delete
+  def delete_user(id) do
+    Repo.delete(Repo.get!(User, id))
+  end
+
+  def delete_post(id) do
+    Repo.delete(Repo.get!(Post, id))
   end
 end

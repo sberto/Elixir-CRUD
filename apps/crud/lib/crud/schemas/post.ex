@@ -8,11 +8,15 @@ defmodule Crud.Post do
     timestamps()
   end
 
-  def changeset(post, params \\ %{}) do
-    IO.puts("post: #{inspect(post)}")
-
+  def changeset(post, params) do
     post
-    |> cast(params, [:text, :user_id])  # Include :user_id in the cast to ensure it's passed
+    |> cast(params, [:id, :text, :user_id])  # Include :user_id in the cast to ensure it's passed
     |> validate_required([:text, :user_id])  # Ensure both text and user_id are present
+  end
+
+  def update_changeset(post, params) do
+    post
+    |> cast(params, [:id, :text, :user_id])  # Include :user_id in the cast to ensure it's passed
+    |> validate_required([:id])
   end
 end

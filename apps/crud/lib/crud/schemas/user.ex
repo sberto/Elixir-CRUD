@@ -15,4 +15,12 @@ defmodule Crud.User do
     |> validate_required([:id, :name])
     |> unique_constraint(:name)
   end
+
+  def update_changeset(post, params) do
+    post
+    |> cast(params, [:id, :name])
+    |> unique_constraint(:name)
+    |> validate_required([:id])
+    |> validate_required([:name])
+  end
 end
