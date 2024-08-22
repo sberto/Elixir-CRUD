@@ -4,9 +4,9 @@ Simple project for a CRUD interface.
 
 # Done:
 - DB communication
+- Add CRUD commands
 
 # Progress
-- Add CRUD commands
 
 # Todo:
 - Add HTTP API
